@@ -4,17 +4,17 @@ class Rectangle:
         self.length = length
             
     def set_length(self, length):
-        if (isinstance(length, float)or isinstance(length, int)) and length>0.0 and length<=20.0:
+        if isinstance(length, (float, int)) and length>0.0 and length<=20.0:
             self.length = length
         else:
-            print("Wrong arguments")
+            self.error()
             return None
 
     def set_width(self, width):
-        if (isinstance(width, float) or isinstance(width, int)) and width>0.0 and width <=20.0:
+        if isinstance(width, (float, int)) and width>0.0 and width <=20.0:
             self.width = width
         else:
-            print("Wrong arguments")
+            self.error()
             return None
    
     def get_length(self):
@@ -25,8 +25,9 @@ class Rectangle:
 
     def calculate(self):
         return "Perimeter: " + str((self.width+self.length)*2) +"\n"+ "Area:" + str(self.width*self.length)
-
-    
+        
+    def error():
+        print("ERROR")
     
 
 x = Rectangle(5.0, 9.0)
