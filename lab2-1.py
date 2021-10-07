@@ -2,7 +2,10 @@ class Product:
 
     def __init__(self,product, price, description, **kwargs):
         self.product = product
-        self.price = price
+        if not isinstance(price, (float, int)):
+            raise TypeError("Incorrect price")
+        else: 
+            self.price = price
         self.description = description
         self.kwargs = kwargs
     
@@ -17,7 +20,10 @@ class Customer:
         self.surname = surname
         self.name = name
         self.patronymic = patronymic
-        self.mobile = mobile
+        if not  len(mobile)==10:
+            raise TypeError("Incorect mobile")
+        else:
+            self.mobile = mobile
     
     def __str__(self):
         return "\nSurname: "+self.surname +"; \nName: "+ self.name +"; \nPatronymic: "+ self.patronymic +"; \nMobile: "+ self.mobile
@@ -31,7 +37,7 @@ class Order():
     def totalvalue(self):
         for key in self.kwargs:
             self.total += self.kwargs[key].get_value()
-        return f'\nTotal price {self.total}'
+        return f'\nTotal price: {self.total}'
 
     def customerdata(self):
         return self.customer
@@ -44,8 +50,9 @@ class Order():
 water = Product("Morshinska", 20, "water", width = 5,height =  10)
 bigwater = Product("big Morshinska", 40, "water", width = 10,height =  20)
 
-customer = Customer("Teleha", "Nikita", "Oleksiyovich","0648798979")
-first_order = Order(customer, first = water, second = bigwater, third = water)
+first_customer = Customer("Teleha", "Nikita", "Oleksiyovich","0677987872")
+
+first_order = Order(first_customer, first = water, second = bigwater, third = water)
 print(first_order.customerdata(),  first_order.totalvalue(), first_order.productdata())
 
 

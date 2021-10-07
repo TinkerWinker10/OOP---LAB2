@@ -1,4 +1,3 @@
-
 class Text:
     def __init__(self,text):
         self.text = text
@@ -41,11 +40,3 @@ x = Text(data)
 print(x.countwords())
 print(x.countchar())
 print(x.countsent())
-
-
-
-
-
-
-
- 
