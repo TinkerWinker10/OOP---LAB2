@@ -1,42 +1,53 @@
 class Text:
-    def __init__(self,text):
-        self.text = text
+    def __init__(self,file_name):
+        self.file = file_name
 
-    def countchar(self):
-        return f'Chars {len(self.text)}'
+    def count_char(self):
+        count = 0
+        try: 
+            data = open(self.file, 'r')
+        except FileNotFoundError:
+            print("File not exist")
+            exit()
+        for line in data: 
+            count +=len(line.split())
+        data.close()
+        return count
 
-    def countwords(self):
+    def count_words(self):
         count = 0 
-        flag = 0
-        for i in range(len(self.text)):
-            if self.text[i] != ' ' and flag == 0:
-                count += 1
-                flag = 1
-            else:
-                if self.text[i] == ' ':
-                    flag = 0
-        return f'Words: {count}'
+        try: 
+            data = open(self.file, 'r')
+        except FileNotFoundError:
+            print("File not exist")
+            exit()
+        for line in data: 
+            count +=len(line)
+        data.close()
+        return count
 
-    def countsent(self):
-        count = 0 
-        flag = 0
-        for i in range(len(self.text)):
-            if self.text[i] != '.' and flag == 0:
-                count += 1
-                flag = 1
-            else:
-                if self.text[i] == '.':
-                    flag = 0
-        return f'Sentences: {count}'
+    def count_sentence(self):
+        count = 0
+        sign = ('.','?','!','.\n', '...')
+        try: 
+            data = open(self.file, 'r')
+        except FileNotFoundError:
+            print("File not exist")
+            exit()
+
+        for line in data: 
+            for i in sign:
+                count +=line.count(i)   
+        data.close()
+        return count
+        
+
+
+if __name__ == '__main__':
+    x = Text("text.txt")
+    print(f'Chars: {x.count_char()} \nWords: {x.count_words()} \nSentence: {x.count_sentence()}')
+    
 
 
 
-f = open("text.txt", "r")
-data =f.read()
-f.close()
 
-x = Text(data)
-
-print(x.countwords())
-print(x.countchar())
-print(x.countsent())
