@@ -3,6 +3,13 @@ class Text:
         self.file = file_name
 
     def count_char(self):
+        """
+        Method which count ammount of chars in file
+        This function open file, if it exists, otherwise raise FileNotFoundError and exit
+        After that, in for line cycle count ammount of chars in file, incrementing counter. After, close file
+        and return counter
+        
+        """
         count = 0
         try: 
             data = open(self.file, 'r')
@@ -15,6 +22,13 @@ class Text:
         return count
 
     def count_words(self):
+        """
+        Method which count ammount of words in file
+        This function open file, if it exists, otherwise raise FileNotFoundError and exit
+        After that, in for line cycle count ammount of words in file incrementing the counter. After, close file
+        and return counter
+        
+        """
         count = 0 
         try: 
             data = open(self.file, 'r')
@@ -27,6 +41,12 @@ class Text:
         return count
 
     def count_sentence(self):
+        """
+        Method which count ammount of chars in file
+        This function open file, if it exists, otherwise raise FileNotFoundError and exit
+        After that, in for line cycle read file and increment counter when stop signs 
+        occurs
+        """
         count = 0
         sign = ('.','?','!','.\n', '...')
         try: 
@@ -34,7 +54,6 @@ class Text:
         except FileNotFoundError:
             print("File not exist")
             exit()
-
         for line in data: 
             for i in sign:
                 count +=line.count(i)   

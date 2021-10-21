@@ -1,33 +1,41 @@
-"""
-The class GROUP contains a sequence of instances of the class STUDENT. The class STUDENT contains the student's name,
-surname, record book number and grades. Determine the required attributes-data and attributes-methods in classes GROUP
- and STUDENT. Find the average score of each student. Output to the standard output stream the five students with the 
- highest average score.
-Assume that there can be no more than 20 students in a group, as well as students with the same name and surname.
-"""
-
-
 class Group: 
+    """
+    Class, instance of which contains a sequance of instances of the class Student
+    """
     def __init__(self, group_name, **students):
         self.group_name = group_name
         self.students = {}
         for key in students:
-            if not Group.check(students[key].name, students[key].surname, self.students):
+            if not Group.check(students[key].name, students[key].surname, self.students) and len(self.students)<20:
                 self.students[key] = students[key]
         self.top5 = {}
         self.find_best()
         
     def __str__(self):  
+        """
+        Return string with arguments
+        """
         return f'Group name: {self.group_name} \nStudents: {" ".join(list(map(str, list(self.top5.values()))))}'
 
     @staticmethod
     def check(name, surname, students):
+        """
+        Method, which check dublicates 
+        Using for cycle and checking like a dictionary, 
+        function check vhether arguments of new instance equals
+        to data of instance which is already exists
+        """
         for key, value in students.items():
             if value.name == name and value.surname == surname:
                 return True
             return False
 
     def find_best(self):
+        """
+        Method, which find first 5 students, who has higher marks
+        Using for cycle function to reverse sort students in group by average
+        After sort, argument self.top5[key] received data about student
+        """
         for key, student in sorted(self.students.items(), key = lambda x: x[1].average, reverse = True)[:5]:
             self.top5[key] = student
     
@@ -35,6 +43,10 @@ class Group:
 
 
 class Student:
+    """
+    Class, instance of which contains student's name,
+    surname, record book number and grades
+    """
     def __init__(self, name, surname, number, *grades):
         self.name = name
         self.surname = surname
@@ -46,6 +58,9 @@ class Student:
         self.average = sum(self.grades) / len(self.grades)
     
     def __str__(self):
+        """
+        Return string with attributes
+        """
         return f'\n\nName:{self.name}\nSurname:{self.surname} \nRecord book number:{self.number} \nGrades:{" ".join(map(str, self.grades))} \nAverage: {self.average}'
 
     
