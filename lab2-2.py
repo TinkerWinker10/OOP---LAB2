@@ -2,7 +2,7 @@ class Text:
     def __init__(self,file_name):
         self.file = file_name
 
-    def count_char(self):
+    def count_words(self):
         """
         Method which count ammount of chars in file
         This function open file, if it exists, otherwise raise FileNotFoundError and exit
@@ -14,14 +14,13 @@ class Text:
         try: 
             data = open(self.file, 'r')
         except FileNotFoundError:
-            print("File not exist")
-            exit()
+            raise 
         for line in data: 
             count +=len(line.split())
         data.close()
         return count
 
-    def count_words(self):
+    def count_char(self):
         """
         Method which count ammount of words in file
         This function open file, if it exists, otherwise raise FileNotFoundError and exit
@@ -33,8 +32,7 @@ class Text:
         try: 
             data = open(self.file, 'r')
         except FileNotFoundError:
-            print("File not exist")
-            exit()
+            pass
         for line in data: 
             count +=len(line)
         data.close()
@@ -52,8 +50,7 @@ class Text:
         try: 
             data = open(self.file, 'r')
         except FileNotFoundError:
-            print("File not exist")
-            exit()
+            pass
         for line in data: 
             for i in sign:
                 count +=line.count(i)   

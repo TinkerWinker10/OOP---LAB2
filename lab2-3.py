@@ -1,44 +1,47 @@
+
+
 class Group: 
     """
     Class, instance of which contains a sequance of instances of the class Student
     """
-    def __init__(self, group_name, **students):
+    def __init__(self, group_name, *students):
         self.group_name = group_name
-        self.students = {}
-        for key in students:
-            if not Group.check(students[key].name, students[key].surname, self.students) and len(self.students)<20:
-                self.students[key] = students[key]
-        self.top5 = {}
-        self.find_best()
+        if len(students)>20:
+            raise OverflowError("More than 20 students")
+        self.students = list(students)
+
         
+       
+    def add_student(self, student):
+        if len(self.students)>20:
+            raise OverflowError("More than 20 students")
+        
+        self.students.append(student)
+   
+    def remove_student(self, student):
+        if not isinstance(student, Student):
+            raise TypeError("Not instance of class Student")
+        self.students.remove(student)
+
+
+
+
     def __str__(self):  
         """
         Return string with arguments
         """
-        return f'Group name: {self.group_name} \nStudents: {" ".join(list(map(str, list(self.top5.values()))))}'
+        return f'Group name: {self.group_name} \nStudents:{" ".join(map(str, self.students))}'
 
-    @staticmethod
-    def check(name, surname, students):
-        """
-        Method, which check dublicates 
-        Using for cycle and checking like a dictionary, 
-        function check vhether arguments of new instance equals
-        to data of instance which is already exists
-        """
-        for key, value in students.items():
-            if value.name == name and value.surname == surname:
-                return True
-            return False
 
-    def find_best(self):
+
+    def top5(self):
         """
         Method, which find first 5 students, who has higher marks
         Using for cycle function to reverse sort students in group by average
-        After sort, argument self.top5[key] received data about student
+        After sort, function return first five students
         """
-        for key, student in sorted(self.students.items(), key = lambda x: x[1].average, reverse = True)[:5]:
-            self.top5[key] = student
-    
+       
+        return sorted(self.students, key = lambda student: student.average(), reverse=True)[:5]
     
 
 
@@ -57,6 +60,46 @@ class Student:
         self.grades = grades
         self.average = sum(self.grades) / len(self.grades)
     
+    @property
+    def name(self):
+        return self.__name
+
+    @name.setter
+    def name(self, data):
+        if not isinstance(data, str):
+            raise TypeError("Name must be a string")
+        if not data:
+            raise ValueError("Field cannot be empty")
+
+        self.__name = data
+
+    @property
+    def surname(self):
+        return self.__surname
+
+    @surname.setter
+    def surname(self, data):
+        if not isinstance(data, str):
+            raise TypeError("Surame must be a string")
+        if not data:
+            raise ValueError("Field cannot be empty")
+
+        self.__surname = data
+
+    @property
+    def number(self):
+        return self.__number
+
+    @number.setter
+    def number(self, data):
+        if not isinstance(data, str):
+            raise TypeError("Code must be a string")
+        if not data:
+            raise ValueError("Field cannot be empty")
+
+        self.__number = data
+
+    
     def __str__(self):
         """
         Return string with attributes
@@ -73,21 +116,17 @@ Vanya = Student('Vanya', 'Generalov', 'NT032430', 2, 2 ,3 ,4, 5)
 Denis= Student('Denis', 'Fedorov', 'NT032420', 1, 2 ,5 ,4, 5)
 Roma = Student('Roma', 'Amor', 'NT032410', 1, 4 ,4 ,4, 5)
 Nikolai = Student('Nikolai', 'Sever', 'NT032489', 1, 2 ,3 ,4, 5)
-Kolya = Student('Kolya', 'Lopata', 'NT032488', 1, 2 ,2 ,2, 5)
-Serzh = Student('Serzh', 'Tankiyan', 'NT032487', 1, 2 ,3 ,2, 5)
-Serhei = Student('Serhei', 'Sis', 'NT032486', 2, 2 ,3 ,4, 5)
-Sergei = Student('Sergei', '', 'NT032485', 2, 2 ,2,2, 2)
-Mitya = Student('Mitya', 'Fomin', 'NT032484', 3, 2 ,3 ,4, 3)
-Dima = Student('Dima', 'Dimitriev', 'NT032483', 1, 3 ,3 ,4, 1)
-Dimitri = Student('Dimitri', 'Basilaya', 'NT032481', 1, 2 ,3 ,4, 5)
-Fima = Student('Fima', 'Voroshilov', 'NT032482', 1, 2 ,3 ,4, 5)
 
 
 if __name__ == '__main__':
 
-    tv = Group('TV-01', first = Nikita,aaa= Nikita, second = John, third = Andrew,
-        fourth = Ivan, fifth = Vanya, 
-        sixth = Denis, seventh = Roma, eigth = Nikolai, nineth = Kolya, 
-    tenth = Serzh, eleventh = Serhei, twelth = Sergei, 
-    thirteenth = Mitya, fourteenth = Dima, fifteenth = Dimitri, sixteenth = Fima)
+    tv = Group('TV-01', Nikita, Ivan, Vanya, John, Andrew, Roma, Denis)
+    tv.add_student(Nikolai)
+    tv.remove_student(Denis)
+    
     print(tv)
+    print(tv.top5())
+
+
+    
+

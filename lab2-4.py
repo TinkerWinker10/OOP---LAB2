@@ -51,12 +51,12 @@ class Binary:
         """
         if data < self.data:
 
-            if self.left is None:
+            if not self.left:
                 return str(data)+" Not Found"
             else:
                 return self.left.get_value(data)
         elif data > self.data:
-            if self.right is None:
+            if not self.right:
                 return str(data)+" Not Found"
             else:
                 return self.right.get_value(data)
