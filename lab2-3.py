@@ -40,9 +40,9 @@ class Group:
         Using for cycle function to reverse sort students in group by average
         After sort, function return first five students
         """
-       
-        return sorted(self.students, key = lambda student: student.average(), reverse=True)[:5]
-    
+        
+        top = sorted(self.students, key= lambda x: x.average, reverse=True)[:5]
+        return '\n'.join(list(map(str, top)))
 
 
 class Student:
@@ -59,6 +59,8 @@ class Student:
                 raise TypeError("Grades must be in integer")
         self.grades = grades
         self.average = sum(self.grades) / len(self.grades)
+    
+   
     
     @property
     def name(self):
@@ -104,7 +106,7 @@ class Student:
         """
         Return string with attributes
         """
-        return f'\n\nName:{self.name}\nSurname:{self.surname} \nRecord book number:{self.number} \nGrades:{" ".join(map(str, self.grades))} \nAverage: {self.average}'
+        return f'\nName:{self.name}\nSurname:{self.surname} \nRecord book number:{self.number} \nGrades:{" ".join(map(str, self.grades))} \nAverage: {self.average}'
 
     
     
@@ -124,7 +126,6 @@ if __name__ == '__main__':
     tv.add_student(Nikolai)
     tv.remove_student(Denis)
     
-    print(tv)
     print(tv.top5())
 
 
